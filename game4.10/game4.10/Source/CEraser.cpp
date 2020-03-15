@@ -7,10 +7,12 @@
 #include "CEraser.h"
 
 namespace game_framework {
+
+	
 	/////////////////////////////////////////////////////////////////////////////
 	// CEraser: Eraser class
 	/////////////////////////////////////////////////////////////////////////////
-
+	
 	CEraser::CEraser()
 	{
 		Initialize();
@@ -97,4 +99,5 @@ namespace game_framework {
 		animation.SetTopLeft(x, y);
 		animation.OnShow();
 	}
+	
 }

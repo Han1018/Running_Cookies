@@ -160,7 +160,12 @@ private:
 	static bool  CreateSurface();
 	static bool  CreateSurfaceFullScreen();
 	static bool  CreateSurfaceWindowed();
-	static void  LoadBitmap(int i, int IDB_BITMAP);
+	static void  LoadBitmap(int i, int 
+		
+		
+		
+		
+		BITMAP);
 	static void  LoadBitmap(int i, char *filename);
 	static DWORD MatchColorKey(LPDIRECTDRAWSURFACE lpDDSurface, COLORREF color);
 	static int   RegisterBitmap(int IDB_BITMAP, COLORREF ColorKey);

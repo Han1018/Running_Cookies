@@ -54,6 +54,34 @@ namespace game_framework {
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
+	// 這個class為遊戲人物:cookieMan
+	/////////////////////////////////////////////////////////////////////////////
+
+	class CookieMan {
+	public:
+		CookieMan();
+		int  GetX1();					// 擦子左上角 x 座標
+		int  GetY1();					// 擦子左上角 y 座標
+		int  GetX2();					// 擦子右下角 x 座標
+		int  GetY2();					// 擦子右下角 y 座標
+		void Init();
+		void LoadBitmap();
+		void SetMovingUp(bool flag);
+		void SetMovingDown(bool flag);
+		void OnMove();
+		void OnShow();
+	private:
+		CAnimation animation;		// 擦子的動畫
+		CMovingBitmap bmp;
+		bool upFlag, downFlag;
+		int groundX, groundY;
+		int nowX, nowY;
+		int maxHeight;
+		int gravity;//重力
+	};
+
+
+	/////////////////////////////////////////////////////////////////////////////
 	// 這個class為遊戲的遊戲開頭畫面物件
 	// 每個Member function的Implementation都要弄懂
 	/////////////////////////////////////////////////////////////////////////////
@@ -101,6 +129,7 @@ namespace game_framework {
 		CEraser			eraser;		// 拍子
 		CInteger		hits_left;	// 剩下的撞擊數
 		CBouncingBall   bball;		// 反覆彈跳的球
+		CookieMan		cMan;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

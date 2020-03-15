@@ -60,6 +60,78 @@
 #include "mygame.h"
 
 namespace game_framework {
+
+	/////////////////////////////////////////////////////////////////////////////
+	// 這個class為CookieMan
+	/////////////////////////////////////////////////////////////////////////////
+	CookieMan::CookieMan()
+	{
+		Init();
+	}
+	void CookieMan::Init() {
+		const int X_POS = 180;
+		const int Y_POS = 400;
+		const int JUMP_TIME = 2;
+		groundX = X_POS;
+		groundY = Y_POS;
+		maxHeight = 100;
+		gravity = 200;
+		upFlag = downFlag = false;
+	}
+
+	int CookieMan::GetX1()
+	{
+		return nowX;
+	}
+
+	int CookieMan::GetY1()
+	{
+		return nowY;
+	}
+
+	int CookieMan::GetX2()
+	{
+		return nowX + animation.Width();
+	}
+
+	int CookieMan::GetY2()
+	{
+		return nowY + animation.Height();
+	}
+
+	void CookieMan::LoadBitmap() {
+		animation.AddBitmap(IDB_cookieMan1, RGB(255, 255, 255));
+
+	}
+	void CookieMan::SetMovingUp(bool flag) {
+		const int JUMP_SPEED = 200;//順間跳躍力
+		upFlag = flag;
+		nowY += -1 * JUMP_SPEED;
+	}
+	void CookieMan::SetMovingDown(bool flag) {
+		downFlag = flag;
+	}
+
+	void CookieMan::OnMove()
+	{
+		const int STEP_SIZE = 10;
+
+		animation.OnMove();
+		if (nowY<groundY) //跳起來狀態,地板上面
+			nowY += gravity;
+
+		else				//踩在地板上
+			nowY = groundY;
+
+
+	}
+	void CookieMan::OnShow()
+	{
+
+		animation.SetTopLeft(nowX, nowY);
+		animation.OnShow();
+	}
+
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
 /////////////////////////////////////////////////////////////////////////////
@@ -215,7 +287,7 @@ void CGameStateRun::OnBeginState()
 		ball[i].SetDelay(x_pos);
 		ball[i].SetIsAlive(true);
 	}
-	eraser.Initialize();
+	cMan.Init();
 	background.SetTopLeft(BACKGROUND_X,0);				// 設定背景的起始座標
 	help.SetTopLeft(0, SIZE_Y - help.Height());			// 設定說明圖的起始座標
 	hits_left.SetInteger(HITS_LEFT);					// 指定剩下的撞擊數
@@ -246,7 +318,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	//
 	// 移動擦子
 	//
-	eraser.OnMove();
+	cMan.OnMove();
 	//
 	// 判斷擦子是否碰到球
 	//
@@ -283,7 +355,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	int i;
 	for (i = 0; i < NUMBALLS; i++)	
 		ball[i].LoadBitmap();								// 載入第i個球的圖形
-	eraser.LoadBitmap();
+	cMan.LoadBitmap();
 	background.LoadBitmap(IDB_BACKGROUND);					// 載入背景的圖形
 	//
 	// 完成部分Loading動作，提高進度
@@ -312,14 +384,16 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_UP    = 0x26; // keyboard上箭頭
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
+/*
 	if (nChar == KEY_LEFT)
-		eraser.SetMovingLeft(true);
+		cMan.SetMovingLeft(true);
 	if (nChar == KEY_RIGHT)
 		eraser.SetMovingRight(true);
+*/
 	if (nChar == KEY_UP)
-		eraser.SetMovingUp(true);
+		cMan.SetMovingUp(true);
 	if (nChar == KEY_DOWN)
-		eraser.SetMovingDown(true);
+		cMan.SetMovingDown(true);
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -328,16 +402,18 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	const char KEY_UP    = 0x26; // keyboard上箭頭
 	const char KEY_RIGHT = 0x27; // keyboard右箭頭
 	const char KEY_DOWN  = 0x28; // keyboard下箭頭
+/*
 	if (nChar == KEY_LEFT)
 		eraser.SetMovingLeft(false);
 	if (nChar == KEY_RIGHT)
 		eraser.SetMovingRight(false);
+*/
 	if (nChar == KEY_UP)
-		eraser.SetMovingUp(false);
+		cMan.SetMovingUp(false);
 	if (nChar == KEY_DOWN)
-		eraser.SetMovingDown(false);
+		cMan.SetMovingDown(false);
 }
-
+/*
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
 	eraser.SetMovingLeft(true);
@@ -362,6 +438,7 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 {
 	eraser.SetMovingRight(false);
 }
+*/
 
 void CGameStateRun::OnShow()
 {
@@ -379,7 +456,7 @@ void CGameStateRun::OnShow()
 	for (int i=0; i < NUMBALLS; i++)
 		ball[i].OnShow();				// 貼上第i號球
 	bball.OnShow();						// 貼上彈跳的球
-	eraser.OnShow();					// 貼上擦子
+	cMan.OnShow();					// 貼上擦子
 	//
 	//  貼上左上及右下角落的圖
 	//
