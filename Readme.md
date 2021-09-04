@@ -1,4 +1,5 @@
 # 跑跑薑餅人-C++復刻版
+一款用C++復刻手機板跑跑薑餅人的遊戲
 
 ## 影片介紹
 [![Watch the Demo!](https://user-images.githubusercontent.com/61962782/132096402-cae22156-e9d7-4a38-a2a2-4d3659c07c85.png)
